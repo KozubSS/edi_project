@@ -1,3 +1,4 @@
+// Update data from api service ***
 function dane() {
     var req = new XMLHttpRequest();
     let post1, post2;
@@ -35,7 +36,7 @@ function dane() {
     } else {
         alert('Nie udało się nawiązać połączenia');
     }
-
+// Deploy of page look 
     const exchangeRates = post1[0].rates;
 
     const exchangeRatesHTML = document.getElementById('exchangeRates');
@@ -64,7 +65,7 @@ var narodowosci ={'ES':0,'BR':0,'CH':0,'FR':0,'FI':0,'DE':0,'CA':0,'NO':0,'IR':0
     for(key in narodowosci){
         dane_narodowosci.push([key,narodowosci[key]])
     }
-
+// chart 1 & 2
 bb.generate({
     bindto:"#chart2"
 ,data:{
