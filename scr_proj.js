@@ -12,15 +12,20 @@ function dane() {
         alert('Nie udało się nawiązać połączenia');
     }
 
-    console.log(post1[0]['rates'])
+    //console.log(post1[0]['rates'])
 
-    var tablica_danych = new Array();
+
+    let tablica_pomocnicza = ['Kurs']
+    let tablica_nazw = ['x']
+
+
     for (x = 0; x < post1[0]['rates'].length; x++) {
-        let tablica_pomocnicza = new Array()
-        tablica_pomocnicza.push(post1[0]['rates'][x]['Currency'])
-        tablica_pomocnicza.push(post1[0]['rates'][x]['Mid'])
-        tablica_danych.push(tablica_pomocnicza)
+ 
+        tablica_nazw.push(post1[0]['rates'][x]['currency'])
+        tablica_pomocnicza.push(post1[0]['rates'][x]['mid'])
+
     }
+
     // Tabela 2
     req.open('GET', 'https://randomuser.me/api/?results=50&inc=dob,gender,nat', false);
     req.send();
@@ -46,12 +51,43 @@ function dane() {
     const randomUsers = post2.results;
 
     const usersDataHTML = document.getElementById('usersData');
-
+var narodowosci ={'ES':0,'BR':0,'CH':0,'FR':0,'FI':0,'DE':0,'CA':0,'NO':0,'IR':0,'NZ':0,'AU':0,'IE':0,'NO':0,'CH':0,'TR':0,'NL':0,'US':0, 'GB':0,'DK':0}
     randomUsers.forEach(user => {
         let tr = '<tr>';
 
         tr += '<td>' + user.gender + '</td> <td>' + user.dob.date + '</td> <td>' + user.dob.age + '</td> <td>' + user.nat + '</td> </tr>';
 
         usersDataHTML.innerHTML += tr;
+        narodowosci[user.nat] += 1
+    });
+    var dane_narodowosci = new Array()
+    for(key in narodowosci){
+        dane_narodowosci.push([key,narodowosci[key]])
+    }
+
+bb.generate({
+    bindto:"#chart2"
+,data:{
+    type:'pie',
+    columns:dane_narodowosci
+    }
+})
+bb.generate({
+    bindto: "#chart1",
+    data: {
+        x: 'x',
+        type: "bar",
+        columns: [tablica_nazw, tablica_pomocnicza]
+    },
+    axis:{
+        x:{
+            type:'category',
+            tick:{
+                culling:false,
+                rotate: 25,
+                multiline:false
+            }
+        }
+    }
     });
 }
